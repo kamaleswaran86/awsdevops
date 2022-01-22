@@ -1,0 +1,2 @@
+FROM tomcat
+COPY build/webapp.war C:\Users\Administrator\workspace\webapp\target\webapp.war
