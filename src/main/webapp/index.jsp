@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2> This is Kamal, how are you</h2>
+<h2> This is Buddhi</h2>
 </body>
 </html>
