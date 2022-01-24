@@ -1,0 +1,31 @@
+---
+- name: Create a new Demo EC2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  vars:
+      region: us-west2
+      instance_type: t2.micro
+      ami: ami-09889d8d54f9e0a0e  # Ubuntu 20.04 LTS
+      keypair: winkp # pem file name
+      #subnetid: subnet-0e80c6bbb664c7138
+  
+  tasks:
+
+    - name: Create an ec2 instance
+      ec2:
+         key_name: "{{ keypair }}"
+         group: winsg  # security group name
+         instance_type: "{{ instance_type }}"
+         image: "{{ ami }}"
+         wait: true
+         region: "{{ region }}"
+         count: 1  # default
+         count_tag:
+            Name: Demo
+         instance_tags:
+            Name: Demo
+         #vpc_subnet_id: "{{ subnetid }}"
+         assign_public_ip: yes
+      register: ec2
