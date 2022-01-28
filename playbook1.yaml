@@ -5,16 +5,18 @@
   gather_facts: False
 
   vars:
-      region: us-west2
+      region: us-west-2
       instance_type: t2.micro
       ami: ami-09889d8d54f9e0a0e  # Ubuntu 20.04 LTS
       keypair: winkp # pem file name
       #subnetid: subnet-0e80c6bbb664c7138
-  
+
   tasks:
 
     - name: Create an ec2 instance
       ec2:
+         aws_access_key: AKIAXERNSQB5U2BDI7YL
+         aws_secret_key: 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
          key_name: "{{ keypair }}"
          group: winsg  # security group name
          instance_type: "{{ instance_type }}"
@@ -25,7 +27,8 @@
          count_tag:
             Name: Demo
          instance_tags:
-            Name: Demo
+            Name: AnsibleBuildVM
          #vpc_subnet_id: "{{ subnetid }}"
-         assign_public_ip: yes
+         #vpc_subnet_id: default
+         #assign_public_ip: yes
       register: ec2
