@@ -1,0 +1,2 @@
+[localhost]
+ec2-54-201-120-177.us-wes-2.comue.amazoaws.com ansible_user=ubuntu
