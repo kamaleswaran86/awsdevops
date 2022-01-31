@@ -1,0 +1,39 @@
+
+pipeline{
+    agent any
+    stages {
+    stage('Git Pull') {
+        steps{
+             git branch: 'main', credentialsId: 'c3a04021-7e95-4119-8d6c-115a31835e8c', url: 'https://github.com/kamaleswaran86/awsdevops.git'
+        }
+    }
+    stage('Execute Playbookl') {
+        steps{
+              ansiblePlaybook credentialsId: '081597c6-5a7d-4b53-a7a1-9a75ae624139', installation: 'ansible', inventory: 'dev.inv', playbook: 'playbook1.yaml'
+            }
+        }
+    
+    stage('Execute shellscript') {
+        steps{
+             sh 'sudo chmod 777 /home/jenkins/.jenkins/workspace/demo2/shell_script.sh'
+             sh '/home/jenkins/.jenkins/workspace/demo2/shell_script.sh '
+            }
+        }
+        
+    stage('Execute Playbook2') {
+        steps{
+             ansiblePlaybook credentialsId: '081597c6-5a7d-4b53-a7a1-9a75ae624139', installation: 'ansible', inventory: 'dev.inv', playbook: 'playbook2.yaml'
+            }
+        }
+    
+     stage('Docker Build') {
+        steps{
+             withCredentials([string(credentialsId: 'kamaleswaran86', variable: 'dockerhubpwd')]) {
+             sh 'docker login -u kamaleswaran86 -p ${dockerhubpwd}'
+             sh 'docker push kamaleswaran86/awsdevops:latest'
+             }
+             }
+            }
+        }
+    
+    }
